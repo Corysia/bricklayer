@@ -10,7 +10,6 @@ import {
     Vector3,
 } from "@babylonjs/core";
 import { Engine } from "@babylonjs/core/Engines/engine";
-import { Camera } from "@babylonjs/core/Cameras/camera";
 import { COLS, ROWS_VISIBLE, ROWS_HIDDEN } from "./types";
 
 export function createScene(engine: Engine) {
@@ -19,24 +18,27 @@ export function createScene(engine: Engine) {
 
     // Fixed, inputless, orthographic camera facing the board
     const camera = new ArcRotateCamera("cam", -Math.PI / 2, Math.PI / 2, 30, Vector3.Zero(), scene);
-    camera.mode = Camera.ORTHOGRAPHIC_CAMERA;
     camera.detachControl();
     camera.inputs.clear();
     camera.setTarget(Vector3.Zero());
 
     // Responsive ortho framing
-    const resizeOrtho = () => {
-        const w = engine.getRenderWidth();
-        const h = engine.getRenderHeight();
-        const aspect = w / h;
-        const halfH = 12; // frames 10×22 nicely
-        camera.orthoTop = halfH;
-        camera.orthoBottom = -halfH;
-        camera.orthoLeft = -halfH * aspect;
-        camera.orthoRight = halfH * aspect;
+    // Keep camera.beta = Math.PI / 2
+    const resizeHeadOn = () => {
+        const aspect = engine.getRenderWidth() / engine.getRenderHeight();
+        const fov = camera.fov;
+        const tanY = Math.tan(fov / 2);
+        const tanX = tanY * aspect;
+        const hx = COLS / 2;
+        const hy = (ROWS_VISIBLE + ROWS_HIDDEN) / 2;
+        const margin = 0.06; // 6%
+
+        const needY = hy / tanY;
+        const needX = hx / tanX;
+        camera.radius = Math.max(needX, needY) * (1 + margin);
     };
-    resizeOrtho();
-    window.addEventListener("resize", resizeOrtho);
+    resizeHeadOn();
+    window.addEventListener("resize", resizeHeadOn);
 
     // Soft ambient light
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);

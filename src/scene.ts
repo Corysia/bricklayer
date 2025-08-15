@@ -13,7 +13,7 @@ import { Engine } from "@babylonjs/core/Engines/engine";
 import { Camera } from "@babylonjs/core/Cameras/camera";
 import { COLS, ROWS_VISIBLE, ROWS_HIDDEN } from "./types";
 
-export function createScene(engine: Engine, canvas: HTMLCanvasElement) {
+export function createScene(engine: Engine) {
     const scene = new Scene(engine);
     scene.clearColor = Color3.FromHexString("#0f1116").toColor4(1);
 

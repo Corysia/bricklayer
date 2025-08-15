@@ -28,7 +28,12 @@ export class Game {
 
     private updateStatus() {
         if (!this.statusEl) return;
-        this.statusEl.textContent = this.over ? "Game Over" : `Lines: ${this.linesCleared}`;
+
+        if (this.over) {
+            this.statusEl.textContent = `🏁 Game Over — Total lines: ${this.linesCleared}`;
+        } else {
+            this.statusEl.textContent = `Lines: ${this.linesCleared}`;
+        }
     }
 
     private spawn() {

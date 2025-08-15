@@ -53,7 +53,7 @@ export class Game {
         if (cleared > 0) {
             this.linesCleared += cleared;
             // speed up subtly
-            this.dropInterval = Math.max(120, this.dropInterval - cleared * 20);
+            // this.dropInterval = Math.max(120, this.dropInterval - cleared * 20);
         }
         this.spawn();
         this.updateStatus();

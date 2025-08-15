@@ -9,7 +9,7 @@ A Tetris clone for [Babylon.js](https://www.babylonjs.com/), built with [Vite](h
 
 ## How to Play
 
-Visit [bricklayer](https://corysia.github.com/bricklayer/).
+Visit [bricklayer](https://corysia.github.io/bricklayer/).
 
 ### Controls
 
